@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "SmartPark: Compile",
+      "type": "shell",
+      "command": "javac",
+      "args": ["Main.java", "ParkingService.java", "Vehicle.java", "HttpUtils.java"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$javac"
+    },
+    {
+      "label": "SmartPark: Run",
+      "type": "shell",
+      "command": "java",
+      "args": ["Main"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "dependsOn": "SmartPark: Compile",
+      "problemMatcher": []
+    }
+  ]
+}

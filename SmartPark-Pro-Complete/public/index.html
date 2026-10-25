@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SmartPark | Parking Operations</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">P</div><div><strong>SmartPark</strong><small>OPERATIONS CONSOLE</small></div></div>
+    <div class="site-label">PARKING FACILITY</div>
+    <div class="facility"><span class="facility-dot"></span><div><b>Central Parking</b><small>Facility SP-001</small></div><span class="chevron">⌄</span></div>
+    <div class="nav-label">WORKSPACE</div>
+    <nav>
+      <button class="nav-item active" data-view="overview"><span>▦</span> Overview</button>
+      <button class="nav-item" data-view="register"><span>＋</span> Register vehicle</button>
+      <button class="nav-item" data-view="vehicles"><span>▤</span> Parked vehicles</button>
+      <button class="nav-item" data-view="exit"><span>↗</span> Vehicle exit</button>
+      <button class="nav-item" data-view="search"><span>⌕</span> Search vehicle</button>
+      <button class="nav-item" data-view="reports"><span>▧</span> Reports & history</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="status-line"><span class="live-dot"></span> System operational</div><small>SmartPark Pro · Local edition</small><small>Build 1.0.0</small></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><div class="crumb">Workspace <span>/</span> <b id="crumbTitle">Overview</b></div><h1 id="pageTitle">Parking overview</h1><p class="subtitle">Monitor occupancy and manage daily parking operations.</p></div>
+      <div class="top-actions"><div class="date-chip"><span>◷</span><span id="clock">Updating time…</span></div><button class="btn btn-light" id="refreshBtn">↻ <span>Refresh</span></button><button class="avatar" title="Local operator">OP</button></div>
+    </header>
+    <div id="notice" class="notice hidden" role="status"></div>
+    <section id="view-overview" class="view">
+      <div class="section-head"><div><h2>Live facility status</h2><p>Real-time view of current parking activity.</p></div><span class="live-pill"><i></i> LIVE STATUS</span></div>
+      <div class="metrics">
+        <article class="metric"><div class="metric-top"><span>Total capacity</span><span class="metric-icon blue">▦</span></div><strong id="totalMetric">30</strong><small>Registered parking spaces</small><div class="metric-foot"><span class="tiny-bar blue-bar"></span> Facility capacity</div></article>
+        <article class="metric"><div class="metric-top"><span>Available spaces</span><span class="metric-icon green">✓</span></div><strong id="availableMetric">30</strong><small>Ready for incoming vehicles</small><div class="metric-foot green-text"><span class="tiny-bar green-bar"></span> Available now</div></article>
+        <article class="metric"><div class="metric-top"><span>Currently parked</span><span class="metric-icon amber">▣</span></div><strong id="occupiedMetric">0</strong><small>Vehicles on site</small><div class="metric-foot amber-text"><span class="tiny-bar amber-bar"></span> Active parking sessions</div></article>
+        <article class="metric"><div class="metric-top"><span>Revenue collected</span><span class="metric-icon violet">₹</span></div><strong id="revenueMetric">₹0</strong><small>Completed parking sessions</small><div class="metric-foot violet-text"><span class="tiny-bar violet-bar"></span> Since server started</div></article>
+      </div>
+      <div class="content-grid">
+        <article class="panel slots-panel"><div class="panel-head"><div><h3>Parking layout</h3><p>Individual bay occupancy</p></div><div class="legend"><span><i class="free-key"></i> Available</span><span><i class="occupied-key"></i> Occupied</span></div></div><div id="slotGrid" class="slot-grid"></div><div class="panel-foot"><span id="slotSummary">30 of 30 spaces available</span><button class="text-btn" data-go="vehicles">View vehicle list →</button></div></article>
+        <article class="panel activity-panel"><div class="panel-head"><div><h3>Recent activity</h3><p>Latest facility events</p></div><button class="text-btn" data-go="reports">View all →</button></div><div id="recentActivity" class="activity-list"><div class="empty-state">No activity recorded yet.</div></div></article>
+      </div>
+      <div class="panel quick-panel"><div><h3>Quick actions</h3><p>Common parking operations</p></div><div class="quick-actions"><button class="quick-card" data-go="register"><span class="quick-icon blue">＋</span><span><b>Register vehicle</b><small>Check a vehicle in</small></span><span class="arrow">↗</span></button><button class="quick-card" data-go="exit"><span class="quick-icon amber">↗</span><span><b>Process vehicle exit</b><small>Close a parking session</small></span><span class="arrow">↗</span></button><button class="quick-card" data-go="reports"><span class="quick-icon violet">▧</span><span><b>Export report</b><small>Download CSV records</small></span><span class="arrow">↗</span></button></div></div>
+    </section>
+    <section id="view-register" class="view hidden">
+      <div class="section-head"><div><h2>Register vehicle</h2><p>Record an arrival and assign the next suitable parking bay.</p></div></div>
+      <div class="form-layout"><article class="panel form-panel"><div class="panel-head"><div><h3>Vehicle details</h3><p>Fields marked with * are required.</p></div><span class="form-step">ARRIVAL · 01</span></div>
+        <form id="registerForm"><div class="form-grid">
+          <label class="field span-2">Registration number *<input name="plate" id="plateInput" placeholder="e.g. MH 12 AB 1234" maxlength="15" required autocomplete="off"><small>Enter the vehicle's official registration number.</small></label>
+          <label class="field">Vehicle type *<select name="type" id="typeInput" required><option value="">Select vehicle type</option><option>Car</option><option>Motorcycle</option><option>Scooter</option><option>SUV</option><option>Van</option><option>Pickup Truck</option><option>Auto Rickshaw</option><option>Electric Vehicle</option><option>Accessible Vehicle</option><option>Bicycle</option></select></label>
+          <label class="field">Owner / driver name<input name="owner" placeholder="Full name" maxlength="70"></label>
+          <label class="field">Contact number<input name="phone" placeholder="10-digit mobile number" inputmode="tel" maxlength="15"></label>
+          <div class="field"><span class="field-label">Parking fee policy</span><div class="policy-box"><b>₹30 / hour</b><small>₹20 minimum charge · Rounded up by hour</small></div></div>
+        </div><div class="form-actions"><button type="reset" class="btn btn-light">Clear form</button><button class="btn btn-primary" type="submit">Register vehicle <span>→</span></button></div></form>
+      </article><aside class="panel side-info"><div class="info-symbol">▣</div><h3>Arrival process</h3><p>The system will assign the lowest-numbered available parking bay automatically.</p><div class="info-row"><span>Available spaces</span><b id="registerAvailable">30</b></div><div class="info-row"><span>Waiting queue</span><b id="registerWaiting">0</b></div><div class="info-note">If the facility is full, the vehicle can be placed in the waiting queue instead of being assigned an occupied bay.</div></aside></div>
+    </section>
+    <section id="view-vehicles" class="view hidden">
+      <div class="section-head"><div><h2>Parked vehicles</h2><p>Vehicles currently checked into the facility.</p></div><button class="btn btn-primary" data-go="register">＋ Register vehicle</button></div>
+      <article class="panel table-panel"><div class="table-toolbar"><div class="table-title"><b>Current parking register</b><span id="vehicleCount" class="count-pill">0 vehicles</span></div><div class="table-tools"><input id="tableFilter" class="search-input" placeholder="Filter vehicles…" aria-label="Filter vehicles"><button id="tableRefresh" class="btn btn-light">↻ Refresh</button></div></div><div class="table-wrap"><table><thead><tr><th>VEHICLE</th><th>TYPE</th><th>PARKING BAY</th><th>ENTRY TIME</th><th>DURATION</th><th>EST. FEE</th><th></th></tr></thead><tbody id="vehicleRows"><tr><td colspan="7" class="empty-cell">No vehicles currently parked.</td></tr></tbody></table></div></article>
+    </section>
+    <section id="view-exit" class="view hidden">
+      <div class="section-head"><div><h2>Vehicle exit</h2><p>Find a parked vehicle, calculate the final fee and release its bay.</p></div></div>
+      <div class="form-layout"><article class="panel form-panel"><div class="panel-head"><div><h3>Process departure</h3><p>Enter the registration number to find the active session.</p></div><span class="form-step">DEPARTURE · 02</span></div>
+        <form id="exitForm"><label class="field">Registration number *<input name="plate" id="exitPlate" placeholder="e.g. MH 12 AB 1234" required autocomplete="off"></label><div id="exitPreview" class="exit-preview hidden"></div><div class="form-actions"><button type="button" id="previewExit" class="btn btn-light">Find vehicle</button><button type="submit" class="btn btn-primary">Confirm vehicle exit →</button></div></form>
+      </article><aside class="panel side-info"><div class="info-symbol amber-symbol">₹</div><h3>Fee calculation</h3><p>Charges are calculated from the recorded entry time when the vehicle checks out.</p><div class="info-row"><span>Hourly rate</span><b>₹30 / hour</b></div><div class="info-row"><span>Minimum fee</span><b>₹20</b></div><div class="info-note">This is a demo fee policy for the project. No real payment is processed.</div></aside></div>
+    </section>
+    <section id="view-search" class="view hidden">
+      <div class="section-head"><div><h2>Search vehicle</h2><p>Find an active parking session by registration number or owner name.</p></div></div>
+      <article class="panel search-panel"><form id="searchForm" class="search-large"><span>⌕</span><input name="q" id="searchInput" placeholder="Enter registration number or owner name…" autocomplete="off"><button class="btn btn-primary">Search</button></form><div id="searchResults" class="search-results"><div class="empty-state">Enter a registration number or owner name to search.</div></div></article>
+    </section>
+    <section id="view-reports" class="view hidden">
+      <div class="section-head"><div><h2>Reports & history</h2><p>Review arrivals, departures and parking fees recorded by this session.</p></div><a class="btn btn-primary" href="/api/export">↓ Export CSV report</a></div>
+      <div class="metrics report-metrics"><article class="metric"><div class="metric-top"><span>Total records</span><span class="metric-icon blue">▤</span></div><strong id="recordMetric">0</strong><small>Entry, exit and waiting events</small></article><article class="metric"><div class="metric-top"><span>Completed exits</span><span class="metric-icon green">✓</span></div><strong id="exitMetric">0</strong><small>Finished parking sessions</small></article><article class="metric"><div class="metric-top"><span>Vehicles waiting</span><span class="metric-icon amber">◷</span></div><strong id="waitingMetric">0</strong><small>Queue for available spaces</small></article></div>
+      <article class="panel table-panel"><div class="table-toolbar"><div class="table-title"><b>Activity ledger</b><span class="count-pill" id="historyCount">0 records</span></div><button class="btn btn-light" id="historyRefresh">↻ Refresh</button></div><div class="table-wrap"><table><thead><tr><th>DATE & TIME</th><th>ACTION</th><th>REGISTRATION</th><th>VEHICLE TYPE</th><th>PARKING BAY</th><th>FEE</th></tr></thead><tbody id="historyRows"><tr><td colspan="6" class="empty-cell">No activity recorded yet.</td></tr></tbody></table></div></article>
+    </section>
+    <footer class="footer"><span>© 2026 SmartPark Pro</span><span><i class="live-dot"></i> Local server connected</span><span>Parking operations · Demo environment</span></footer>
+  </main>
+  <script src="/script.js"></script>
+</body>
+</html>

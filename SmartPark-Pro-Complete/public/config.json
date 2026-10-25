@@ -1,0 +1,15 @@
+{
+  "appName": "SmartPark Pro",
+  "vehicleTypes": [
+    "Car",
+    "Motorcycle",
+    "Scooter",
+    "SUV",
+    "Van",
+    "Pickup Truck",
+    "Auto Rickshaw",
+    "Electric Vehicle",
+    "Accessible Vehicle",
+    "Bicycle"
+  ]
+}
